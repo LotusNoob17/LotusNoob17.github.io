@@ -1,6 +1,19 @@
-import{viewdata} from "../controller/firebase.js"
+import { viewdata, eliminarDatosUsuario } from "../controller/firebase.js";
 
-const ver =  document.getElementById('vdata')
+async function eliminarUsuario(docId) {
+    // Pide confirmación al usuario antes de eliminar
+    if (window.confirm('¿Estás seguro de que quieres eliminar este usuario? Esta acción es irreversible.')) {
+        try {
+            // Elimina el documento de Firestore
+            await eliminarDatosUsuario(docId);
+
+            // Recarga los datos de la tabla
+            cargar();
+        } catch (error) {
+            console.error('Error al eliminar el usuario:', error);
+        }
+    }
+}
 
 async function cargar(){
     ver.innerHTML=''
@@ -18,6 +31,7 @@ async function cargar(){
             <td>${doc.data().RH}</td>
             <td>${doc.data().Genero}</td>
             <td>${doc.data().email}</td>
+            <td><button onclick="eliminarUsuario('${doc.id}')">Eliminar</button></td>
             </tr>
         `
     });

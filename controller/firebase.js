@@ -19,7 +19,9 @@ import {
     addDoc,
     query,
     where,
-    getDocs
+    getDocs,
+    doc,
+    deleteDoc
 } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 
 
@@ -39,7 +41,7 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
 const db = getFirestore(app);
-
+export { doc, deleteDoc };
 //Nuevas instancias
 export const provider = new GoogleAuthProvider();
 export const providerf = new FacebookAuthProvider();
@@ -119,6 +121,25 @@ export async function obtenerCorreosUsuarios(email) {
     }
 }
 
+export async function eliminarDatosUsuario(email) {
+    // Obtén los datos del usuario de Firestore
+    const userSnapshot = await obtenerCorreosUsuarios(email);
+    if (!userSnapshot.empty) {
+        const userDoc = userSnapshot.docs[0];
+
+        // Elimina los datos del usuario en Firestore
+        await deleteDoc(doc(db, 'users', userDoc.id));
+
+        // Obtiene la autenticación del usuario
+        const auth = getAuth();
+
+        // Comprueba si el usuario actual es el usuario que se va a eliminar
+        if (auth.currentUser.email === email) {
+            // Elimina la cuenta del usuario
+            await deleteUser(auth.currentUser);
+        }
+    }
+}
 
     
 
