@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Recovery</title>
+    <link rel="stylesheet" href="../style/recoverystyles.css"/>
+</head>
+<body>
+    <div class="Recovery-container">
+        <div class="title-container">
+            <h2>Recuperar contraseña</h2>
+        </div>
+        <div class="Username-container">
+            <input type="email" id="username" placeholder="Email">
+        </div>
+        <div class="Recovery">
+            <button class="btn" id="recoverybtn">Enviar correo de verficación</button> 
+        </div>
+        <div class="Back">
+            <button class="btn" id="volverbtn" onclick="event.preventDefault(); window.location.href='../index.html'">Volver</button>
+        </div>
+    </div>
+    <script type="module" src="../controller/pass_recovery.js"></script>
+</body>
+</html>

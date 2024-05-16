@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin" />
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="../style/stylescopy.css"/>
+</head>
+<body>
+    <div class="login-container">
+        <form id="formreg">
+        <div class="title-container">
+            <h2>Iniciar Sesión</h2>
+        </div>
+        <div class="Username-Password">
+            <input type="email" id="username" placeholder="Usuario">
+            <input type="password" id="userpassword" placeholder="Contraseña">
+        </div>
+        <div class="Login">
+            <button class="btn" id="loginbtn"onclick="event.preventDefault();">Iniciar Sesión</button> 
+        </div>
+        <div class="Google-Login">
+            <button class="btn" id="googleloginbtn" onclick="event.preventDefault();">Iniciar Sesión con Google</button> 
+        </div>
+        <div class="Facebook-Login">
+            <button class="btn" id="facebookloginbtn" onclick="event.preventDefault();">Iniciar Sesión con Facebook</button> 
+        </div>
+        <div class="New-forgot">
+            <a href="../templates/registers_users.html">Crear una cuenta</a>
+            <a href="#" onclick="window.location.href='../templates/recovery.html'">¿Olvidaste tu contraseña?</a>
+        </div>
+    </form>
+    </div>
+    <script type="module" src="../controller/conform.js"></script>
+    <script type="module" src="../controller/googlelogin.js"></script>
+    <script type="module" src="../controller/facebooklogin.js"></script>
+</body>
+</html>

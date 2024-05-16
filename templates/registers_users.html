@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Registrar</title>
+    <link rel="stylesheet" href="../style/stylesregister.css"/>
+</head>
+<body>
+    <div class="register-container">
+        <div class="title-container">
+            <h2>Registrar</h2>
+        </div>
+        <div class="Username-Password">
+            <input type="text" id="ident" placeholder="Identificación">
+            <input type="text" id="name" placeholder="Nombre">
+            <select id="Rol" name="Rol">
+                <option value="Usuario">Usuario</option>
+                <option value="Administrador">Administrador</option>
+            </select>
+            <input type="text" id="adress" placeholder="Dirección">
+            <input type="text" id="phone" placeholder="Telefono">
+            <input type="text" id="blood" placeholder="RH">
+            <select id="Gene" name="Gene">
+                <option value="Masculino">Masculino</option>
+                <option value="Femenino">Femenino</option>
+                <option value="Otro">Otro</option>
+            </select>
+            <input type="email" id="username" placeholder="Correo Electrónico">
+            <input type="email" id="confirm_email" placeholder="Confirmar Correo Electrónico">
+            <input type="password" id="userpassword" placeholder="Contraseña">
+            <input type="password" id="confirm_password" placeholder="Confirmar Contraseña">
+        </div>
+        <div class="Register">
+            <button class="btn" id="registerbtn">Registrar</button> 
+        </div>
+        <div class="Back">
+            <button class="btn" id="volverbtn" onclick="event.preventDefault(); window.location.href='../index.html'">Volver</button>
+        </div>
+    </div>
+    <script type="module" src="../controller/register_user.js"></script>
+</body>
+</html>

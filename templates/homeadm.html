@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="../style/styleshome.css">
+</head>
+<body>
+    <div class="container">
+        <h3>Bienvenido</h3>
+        <button type="button" id="btnlogout">Cerrar Sesión</button>
+        <button type="button" id="DeleteUserbtn">Eliminar Usuario</button>
+        <button type="button" id="btnUsers" onclick="event.preventDefault(); window.location.href='../templates/viewUsers.html'">Ver Usuarios</button>
+    </div>
+    <script type="module" src="../controller/home.js"></script>
+    <script type="module" src="../controller/DeleteUser.js"></script>
+    <script type="module" src="../controller/homeadm.js"></script>
+</body>
+</html>
+
+
