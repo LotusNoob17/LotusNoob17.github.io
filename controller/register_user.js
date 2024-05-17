@@ -2,7 +2,7 @@ import { registerauth, enviar, Addregister } from "../controller/firebase.js";
 
 const guardar = document.getElementById('registerbtn');
 
-async function register() {
+export async function register() {
     const identi = document.getElementById('ident').value
     const Nombre = document.getElementById('name').value
     const Rol = document.getElementById('Rol').value;

@@ -1,19 +1,58 @@
-import { viewdata, eliminarDatosUsuario } from "../controller/firebase.js";
+import { viewdata, eliminarUsuarios, Addregister } from "../controller/firebase.js";
+import {register} from "../controller/register_user.js";
+
+
+const ver =  document.getElementById('vdata');
+const agregarbtn = document.getElementById('agregarbtn');
+const registerForm = document.getElementById('registerForm');
+const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
+
+async function dates(userDetails){
+    const {identi, Nombre, Rol, Direccion, Telefono, RH, Genero, email} = userDetails; // Extrae los detalles del usuario
+    try {
+        const validar = await Addregister(identi, Nombre, Rol, Direccion, Telefono, RH, Genero, email);
+        alert('Los datos se enviaron exitosamente..');
+        window.location.href = "../templates/viewUsers.html";
+        const user = userCredential.user;
+        
+    } catch (error) {
+        alert('no sucessfull');
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(`Error Code: ${errorCode}`);
+        console.log(`Error Message: ${errorMessage}`);
+    }
+}
+
+agregarbtn.addEventListener('click', () => {
+    // Abre el modal con el formulario de registro
+    registerModal.show();
+});
+
+
+registerForm.addEventListener('submit', async (event) => {
+    // Evita que el formulario se envíe normalmente
+    event.preventDefault();
+
+    // Llama a tus funciones register y dates
+    const userDetails = await register();
+    await dates(userDetails);
+});
 
 async function eliminarUsuario(docId) {
-    // Pide confirmación al usuario antes de eliminar
-    if (window.confirm('¿Estás seguro de que quieres eliminar este usuario? Esta acción es irreversible.')) {
         try {
             // Elimina el documento de Firestore
-            await eliminarDatosUsuario(docId);
+            await eliminarUsuarios(docId);
 
             // Recarga los datos de la tabla
             cargar();
         } catch (error) {
             console.error('Error al eliminar el usuario:', error);
         }
-    }
+    
 }
+
+window.eliminarUsuario = eliminarUsuario;
 
 async function cargar(){
     ver.innerHTML=''
@@ -40,3 +79,4 @@ async function cargar(){
 window.addEventListener('DOMContentLoaded', async()=>{
     cargar()
 })
+

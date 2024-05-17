@@ -123,7 +123,9 @@ export async function obtenerCorreosUsuarios(email) {
 
 export async function eliminarDatosUsuario(email) {
     // Obtén los datos del usuario de Firestore
+
     const userSnapshot = await obtenerCorreosUsuarios(email);
+
     if (!userSnapshot.empty) {
         const userDoc = userSnapshot.docs[0];
 
@@ -141,7 +143,20 @@ export async function eliminarDatosUsuario(email) {
     }
 }
 
-    
+export async function eliminarUsuarios(docId) {
+    // Pide confirmación al usuario antes de eliminar
+    if (window.confirm('¿Estás seguro de que quieres eliminar este usuario? Esta acción es irreversible.')) {
+        try {
+            // Elimina el documento de Firestore
+            await deleteDoc(doc(db, 'users', docId));
+        } catch (error) {
+            console.error('Error al eliminar el usuario:', error);
+        }
+    }
+}
+
+
+ 
 
 
 
