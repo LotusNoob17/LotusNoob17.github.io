@@ -20,12 +20,13 @@ async function iniciarfacebook() {
         const Telefono = 'sin definir';
         const RH = 'sin definir';
         const Genero = 'sin definir';
+        const password = 'sin definir';
 
         const querySnapshot = await obtenerCorreosUsuarios(email);
 
         if (querySnapshot.empty) {
             // si no se encontró ningún documento, crea uno nuevo
-            const validar = await Addregister(identi, Nombre, Rol, Direccion, Telefono, RH, Genero, email);
+            const validar = await Addregister(identi, Nombre, Rol, Direccion, Telefono, RH, Genero, email, password);
             alert('Los datos se enviaron exitosamente..');
             window.location.href = "../templates/home.html";
         } else {

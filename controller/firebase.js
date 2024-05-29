@@ -17,10 +17,13 @@ import {
     getFirestore,
     collection,
     addDoc,
+    updateDoc,
     query,
     where,
     getDocs,
+    getDoc,
     doc,
+    setDoc,
     deleteDoc
 } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 
@@ -70,28 +73,15 @@ export function userstate() {
     });
 }
 
-// Función para eliminar el usuario
-export function EliminarUsuario(auth) {
-    console.log('Función EliminarUsuario llamada');
-    const user = auth.currentUser;
-    deleteUser(user).then(() => {
-        console.log('Usuario eliminado');
-    }).catch((error) => {
-        console.error('Error al eliminar el usuario', error);
-    });
-}
-
-
 // Método para registrar cuentas con correo electrónico y contraseña
 export const registerauth = (email, password) => createUserWithEmailAndPassword(auth, email, password);
 export const resetpassword = (email) => sendPasswordResetEmail(auth, email);
 
 //Métodos database con firestore
 
-//datos register
-export const Addregister = async (identi, Nombre, Rol, Direccion, Telefono, RH, Genero, email) => {
+export const Addregister = async (identi, Nombre, Rol, Direccion, Telefono, RH, Genero, email, password) => {
     try {
-        const docRef = await addDoc(collection(db, "users"), {
+        await setDoc(doc(db, "users", identi), {
             identi: identi,
             Nombre: Nombre,
             Rol: Rol, 
@@ -99,13 +89,20 @@ export const Addregister = async (identi, Nombre, Rol, Direccion, Telefono, RH, 
             Telefono: Telefono,
             RH: RH,
             Genero: Genero,
-            email: email
+            email: email,
+            password: password
         });
-        console.log("Documento registrado con ID: ", docRef.id);
+        console.log("Documento registrado con ID: ", identi);
     } catch (error) {
         console.error("Error al agregar el documento: ", error);
     }
 };
+
+
+//Leer registro especifico
+export const Getregister=(identi)=> 
+    getDoc(doc(db, "users", identi))
+
 
 export const viewdata=()=>
     getDocs(collection(db, "users"));
@@ -121,39 +118,83 @@ export async function obtenerCorreosUsuarios(email) {
     }
 }
 
-export async function eliminarDatosUsuario(email) {
+export async function obtenerPasswordUsuario(email) {
+    try {
+        const q = query(collection(db, 'users'), where('email', '==', email));
+        const querySnapshot = await getDocs(q);
+        let userPassword;
+        querySnapshot.forEach((doc) => {
+            userPassword = doc.data().password;
+        });
+        return userPassword;
+    } catch (error) {
+        console.error('Error al obtener la contraseña del usuario:', error);
+        return null;
+    }
+}
+
+export async function eliminarUsuario(email, password) {
     // Obtén los datos del usuario de Firestore
 
+    await signInWithEmailAndPassword(auth, email, password);
     const userSnapshot = await obtenerCorreosUsuarios(email);
 
     if (!userSnapshot.empty) {
         const userDoc = userSnapshot.docs[0];
 
-        // Elimina los datos del usuario en Firestore
-        await deleteDoc(doc(db, 'users', userDoc.id));
+        // Pide confirmación al usuario antes de eliminar
+        if (window.confirm('¿Estás seguro de que quieres eliminar este usuario? Esta acción es irreversible.')) {
+            try {
+                // Elimina los datos del usuario en Firestore
+                await deleteDoc(doc(db, 'users', userDoc.id));
 
-        // Obtiene la autenticación del usuario
-        const auth = getAuth();
+                // Comprueba si el usuario actual es el usuario que se va a eliminar
+                if (auth.currentUser.email === email) {
+                    // Elimina la cuenta del usuario
+                    await deleteUser(auth.currentUser);
+                }
 
-        // Comprueba si el usuario actual es el usuario que se va a eliminar
-        if (auth.currentUser.email === email) {
-            // Elimina la cuenta del usuario
-            await deleteUser(auth.currentUser);
+                console.log('Usuario eliminado correctamente');
+            } catch (error) {
+                console.error('Error al eliminar el usuario:', error);
+            }
         }
+    } else {
+        console.log('No se encontró el usuario');
     }
 }
 
-export async function eliminarUsuarios(docId) {
-    // Pide confirmación al usuario antes de eliminar
-    if (window.confirm('¿Estás seguro de que quieres eliminar este usuario? Esta acción es irreversible.')) {
-        try {
-            // Elimina el documento de Firestore
-            await deleteDoc(doc(db, 'users', docId));
-        } catch (error) {
-            console.error('Error al eliminar el usuario:', error);
+export async function eliminarusuarioProvider(email) {
+    const auth = getAuth();
+    // Comprueba si el usuario ha iniciado sesión
+    const userSnapshot = await obtenerCorreosUsuarios(email);
+
+    if (!userSnapshot.empty) {
+        const userDoc = userSnapshot.docs[0];
+
+        // Pide confirmación al usuario antes de eliminar
+        if (window.confirm('¿Estás seguro de que quieres eliminar este usuario? Esta acción es irreversible.')) {
+            try {
+                // Elimina los datos del usuario en Firestore
+                await deleteDoc(doc(db, 'users', userDoc.id));
+
+                // Comprueba si el usuario actual es el usuario que se va a eliminar
+                if (auth.currentUser.email === email) {
+                    // Elimina la cuenta del usuario
+                    await deleteUser(auth.currentUser);
+                }
+
+                console.log('Usuario eliminado correctamente');
+            } catch (error) {
+                console.error('Error al eliminar el usuario:', error);
+            }
         }
+    } else {
+        console.log('No se encontró el usuario');
     }
 }
+
+
 
 
  

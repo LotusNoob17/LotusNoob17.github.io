@@ -15,6 +15,8 @@
         <br>
             <h3>Usuarios Registrados</h3>
         <br>
+        <input type="text" id="searchInput" placeholder="Buscar usuario por identificación">
+        <button id="searchBtn">Buscar</button>
         <div class="d-flex justify-content-center h-100">
             <table class="table">
                 <thead class="table-dark">
@@ -27,7 +29,8 @@
                     <th scope="col">RH</th>
                     <th scope="col">Género</th>
                     <th scope="col">Email</th>
-                    <th scope="col">Acciones</th>
+                    <th scope="col">Eliminar</th>
+                    <th scope="col">Editar</th>
                   </tr>
                 </thead>
                 <tbody id="vdata">
@@ -36,9 +39,12 @@
               </table>
         </div>
         <div class="Back">
-            <button class="btn" id="volverbtn" onclick="event.preventDefault(); window.location.href='../templates/homeadm.html'">Volver</button>
-            <button class="btn" id="agregarbtn" onclick="event.preventDefault();">Agregar</button>
-        </div>
+          <button class="btn" id="volverbtn" onclick="event.preventDefault(); window.location.href='../templates/homeadm.html'">Volver</button>
+          <button class="btn" id="agregarbtn" onclick="event.preventDefault();">Agregar</button>
+      </div>
+    </div>  
+
+        <!--Modal para registrar-->
         <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -47,7 +53,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <!-- Aquí va tu formulario de registro -->
                 <form id="registerForm">
                   <!-- Aquí van los campos de tu formulario -->
                   <div class="mb-3">
@@ -100,10 +105,52 @@
             </div>
           </div>
         </div>
-    </div>   
+        <!--Modal para editar-->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Cambios de Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>  
+              <div class="modal-body">
+                <form id="editForm">
+                  <!-- Aquí van los campos del formulario -->
+                  <div class="mb-3">
+                  <div class="mb-3">
+                    <label for="name" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="name1">
+                  </div>
+                  <div class="mb-3">
+                    <label for="Rol" class="form-label">Rol</label>
+                    <input type="text" class="form-control" id="Rol1">
+                  </div>
+                  <div class="mb-3">
+                    <label for="adress" class="form-label">Dirección</label>
+                    <input type="text" class="form-control" id="adress1">
+                  </div>
+                  <div class="mb-3">
+                    <label for="phone" class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" id="phone1">
+                  </div>
+                  <div class="mb-3">
+                    <label for="blood" class="form-label">RH</label>
+                    <input type="text" class="form-control" id="blood1">
+                  </div>
+                  <div class="mb-3">
+                    <label for="Gene" class="form-label">Género</label>
+                    <input type="text" class="form-control" id="Gene1">
+                  </div>
+                  <input type="hidden" id="email1">
+                  <input type="hidden" id="password1">
+                  <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script type="module" src="../controller/register.js"></script>
     <script type="module" src="../controller/viewUsers.js"></script>
   </body>
 </html>

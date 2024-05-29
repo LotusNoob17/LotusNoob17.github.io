@@ -2,7 +2,7 @@ import { registerauth, enviar, Addregister } from "../controller/firebase.js";
 
 const guardar = document.getElementById('registerbtn');
 
-export async function register() {
+async function register() {
     const identi = document.getElementById('ident').value
     const Nombre = document.getElementById('name').value
     const Rol = document.getElementById('Rol').value;
@@ -67,7 +67,7 @@ export async function register() {
         });
 
         alert('Registro exitoso. Por favor verifica tu correo electrónico.');
-        return {identi, Nombre, Rol, Direccion, Telefono, RH, Genero, email}; // Devuelve los datos del usuario
+        return {identi, Nombre, Rol, Direccion, Telefono, RH, Genero, email, password}; // Devuelve los datos del usuario
     } catch (error) {
         alert('no sucessfull register');
         const errorCode = error.code;
@@ -78,9 +78,9 @@ export async function register() {
 
 
 async function dates(userDetails){
-    const {identi, Nombre, Rol, Direccion, Telefono, RH, Genero, email} = userDetails; // Extrae los detalles del usuario
+    const {identi, Nombre, Rol, Direccion, Telefono, RH, Genero, email, password} = userDetails; // Extrae los detalles del usuario
     try {
-        const validar = await Addregister(identi, Nombre, Rol, Direccion, Telefono, RH, Genero, email);
+        const validar = await Addregister(identi, Nombre, Rol, Direccion, Telefono, RH, Genero, email, password);
         alert('Los datos se enviaron exitosamente..');
         window.location.href = "../templates/registers_users.html";
         const user = userCredential.user;

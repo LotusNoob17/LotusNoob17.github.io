@@ -1,4 +1,4 @@
-import { auth, eliminarDatosUsuario } from "../controller/firebase.js";
+import { auth, eliminarUsuario, eliminarusuarioProvider } from "../controller/firebase.js";
 
 console.log('Script DeleteUser.js cargado');
 
@@ -6,22 +6,29 @@ const DeleteBtn = document.getElementById('DeleteUserbtn');
 
 async function borrar() {
     console.log('Función borrar llamada');
-    // Pide confirmación al usuario antes de eliminar
-    if (window.confirm('¿Estás seguro de que quieres eliminar este usuario? Esta acción es irreversible.')) {
-        try {
-            // Obtén el correo electrónico del usuario actual
-            const email = auth.currentUser.email;
+    try {
+        // Obtén el correo electrónico del usuario actual
+        const email = auth.currentUser.email;
 
-            // Elimina los datos del usuario en Firestore y la cuenta del usuario
-            await eliminarDatosUsuario(email);
+        // Verifica el proveedor de inicio de sesión
+        const provider = auth.currentUser.providerData[0].providerId;
 
-            alert('Usuario eliminado');
-            window.location.href = "../index.html";
-        } catch (error) {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            alert(`Error: ${errorCode}\n${errorMessage}`);
+        if (provider === 'password') {
+            // Si el usuario inició sesión con correo electrónico y contraseña
+            // Pide la contraseña al usuario
+            const password = prompt('Por favor, introduce tu contraseña para continuar con la eliminación de la cuenta');
+            await eliminarUsuario(email, password);
+        } else if (provider === 'google.com' || provider === 'facebook.com') {
+            // Si el usuario inició sesión con Google o Facebook
+            await eliminarusuarioProvider(email);
         }
+
+        alert('Usuario eliminado');
+        window.location.href = "../index.html";
+    } catch (error) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(`Error: ${errorCode}\n${errorMessage}`);
     }
 }
 
