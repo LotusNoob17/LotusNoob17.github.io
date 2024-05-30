@@ -172,20 +172,24 @@ window.eliminarUsuarios = eliminarUsuarios;
 searchBtn.addEventListener('click', async () => {
     const identi = searchInput.value;
     const docSnap = await Getregister(identi);
-
-    if (docSnap.exists()) {
+    
+    if (identi.trim() === '') {
+        cargar();
+        console.log("Cargando todos los usuarios por defecto...");
+    } else if (docSnap.exists()) {
         console.log("Datos del documento:", docSnap.data());
         ver.innerHTML = `
             <tr>
-            <th scope="row">${docSnap.data().identi}</th>
-            <td>${docSnap.data().Nombre}</td>
-            <td>${docSnap.data().Rol}</td>
-            <td>${docSnap.data().Direccion}</td>
-            <td>${docSnap.data().Telefono}</td>
-            <td>${docSnap.data().RH}</td>
-            <td>${docSnap.data().Genero}</td>
-            <td>${docSnap.data().email}</td>
-            <td><button onclick="eliminarUsuarios('${docSnap.data().email}')">Eliminar</button></td>
+                <th scope="row">${docSnap.data().identi}</th>
+                <td>${docSnap.data().Nombre}</td>
+                <td>${docSnap.data().Rol}</td>
+                <td>${docSnap.data().Direccion}</td>
+                <td>${docSnap.data().Telefono}</td>
+                <td>${docSnap.data().RH}</td>
+                <td>${docSnap.data().Genero}</td>
+                <td>${docSnap.data().email}</td>
+                <td><button onclick="eliminarUsuarios('${docSnap.data().email}')">Eliminar</button></td>
+                <td><button onclick="edit('${docSnap.data().identi}')">Editar</button></td>
             </tr>
         `;
     } else {
